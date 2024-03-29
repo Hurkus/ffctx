@@ -4,7 +4,7 @@
 #              This script is meant to be ran from a context menu.
 
 
-function f(){
+function ff(){
 	in="$1"
 	out="${1%.*}.webm"
 	
@@ -61,7 +61,7 @@ function f(){
 
 
 while (($# > 0)); do
-	f "$1" || {
+	ff "$1" || {
 		read -p 'Press any key to exit ...'
 		exit 1
 	}

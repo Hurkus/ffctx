@@ -3,12 +3,12 @@
 
 
 function script(){
-	src='./ffconvert.sh'
+	src='./ffctx.sh'
 	
 	if [[ -d '/usr/local/bin/' ]]; then
-		dst='/usr/local/bin/ffconvert.sh'
+		dst='/usr/local/bin/ffctx.sh'
 	elif [[ -d '/usr/local/' ]]; then
-		dst='/usr/local/ffconvert.sh'
+		dst='/usr/local/ffctx.sh'
 	fi
 	
 	echo "cp -f '$src' '$dst'"
@@ -34,12 +34,12 @@ Actions=convertMediaFile
 
 [Desktop Action convertMediaFile]
 Name=Convert To WEBM
-Exec=konsole -e "bash -c 'type ffconvert.sh 1>/dev/null 2>/dev/null && ffconvert.sh %U'"
+Exec=konsole -e "bash -c 'type ffctx.sh 1>/dev/null 2>/dev/null && ffctx.sh %U'"
 EOF
 	
 	chmod +r "$desktop_tmp"
-	echo "cp -f '$desktop_tmp' '${desktop_path}/ffconvert.desktop'"
-	sudo cp -f "$desktop_tmp" "${desktop_path}/ffconvert.desktop"
+	echo "cp -f '$desktop_tmp' '${desktop_path}/ffctx.desktop'"
+	sudo cp -f "$desktop_tmp" "${desktop_path}/ffctx.desktop"
 }
 
 
