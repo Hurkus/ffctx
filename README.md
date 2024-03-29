@@ -8,6 +8,11 @@ The script spawns a terminal that provides feedback on the conversion process.
 The file conversion is done by [ffmpeg](https://github.com/FFmpeg). <br/>
 Currently the script is hardcoded to open [konsole](https://github.com/KDE/konsole) as the terminal emulator.
 
+<br/>
+
+![Usage example.](/sample/preview.png "Usage example")
+
+
 ## Installation
 
 Clone repository and
