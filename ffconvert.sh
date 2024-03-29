@@ -1,20 +1,7 @@
 #!/bin/bash
 # Author: Hurkus (2024)
 # Description: Convert videos to .webm format.
-#              This script is meant to be used within a context menu.
-
-# Install:
-#   ln -f -s `realpath ./ffconvert.sh` /usr/local/bin
-#   PASTE TO `qtpaths --locate-dirs GenericDataLocation kio/servicemenus`/ffconvert.desktop
-#     [Desktop Entry]
-#     Type=Service
-#     MimeType=video/mp4
-#     Actions=convertMediaFile
-#     
-#     [Desktop Action convertMediaFile]
-#     Name=Convert To WEBM
-#     Exec=konsole -e "bash -c 'type ffconvert.sh 1>/dev/null 2>/dev/null && ffconvert.sh %U'"
-# 
+#              This script is meant to be ran from a context menu.
 
 
 function f(){
