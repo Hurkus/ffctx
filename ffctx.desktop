@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Service
+MimeType=video/mp4
+Actions=convertMediaFile
+
+[Desktop Action convertMediaFile]
+Name=Convert To WEBM
+Exec=konsole -e "bash -c 'type ffctx.sh 1>/dev/null 2>/dev/null && ffctx.sh %U'"

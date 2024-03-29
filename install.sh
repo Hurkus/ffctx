@@ -17,6 +17,8 @@ function script(){
 
 
 function contextMenu(){
+	src='./ffctx.desktop'
+	
 	desktop_path=`qtpaths --locate-dirs GenericDataLocation kio/servicemenus`
 	desktop_path="${desktop_path%%:*}"
 	
@@ -25,21 +27,8 @@ function contextMenu(){
 		exit 1
 	fi
 	
-	desktop_tmp=`mktemp --suffix='.desktop'`
-cat >"$desktop_tmp" <<'EOF'
-[Desktop Entry]
-Type=Service
-MimeType=video/mp4
-Actions=convertMediaFile
-
-[Desktop Action convertMediaFile]
-Name=Convert To WEBM
-Exec=konsole -e "bash -c 'type ffctx.sh 1>/dev/null 2>/dev/null && ffctx.sh %U'"
-EOF
-	
-	chmod +r "$desktop_tmp"
-	echo "cp -f '$desktop_tmp' '${desktop_path}/ffctx.desktop'"
-	sudo cp -f "$desktop_tmp" "${desktop_path}/ffctx.desktop"
+	echo "cp -f '$src' '${desktop_path}/ffctx.desktop'"
+	sudo cp -f "$src" "${desktop_path}/ffctx.desktop"
 }
 
 
