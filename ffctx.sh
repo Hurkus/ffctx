@@ -42,7 +42,7 @@ function ff(){
 	tmp=`mktemp --suffix='.webm'`
 	
 	echo "$cmd"
-	eval "$cmd"
+	eval "$cmd" || return 3
 	
 	in_size=`stat "$in" --print='%s'`
 	out_size=`stat "$tmp" --print='%s'`
@@ -55,7 +55,7 @@ function ff(){
 		return 1
 	fi
 	
-	# Move from tmp to final destination
+	Move from tmp to final destination
 	mv -- "$tmp" "$out"
 	touch -r "$in" -- "$out"
 	
