@@ -57,7 +57,7 @@ function ff(){
 	
 	# Move from tmp to final destination
 	mv -- "$tmp" "$out"
-	touch -r -- "$in" "$out"
+	touch -r "$in" -- "$out"
 	
 	# Remove file
 	if (($replace)); then
