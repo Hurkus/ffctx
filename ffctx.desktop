@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Service
-MimeType=video/mp4;video/mpeg;video/mov;
+MimeType=video/mp4;video/mpeg;video/quicktime;video/ogg;video/avi;
 Actions=convertMediaFile;convertMediaFileReplace;
 X-KDE-Submenu=Convert To WEBM
 
