@@ -1,7 +1,7 @@
-# ffctx
+# ffconvert
 
 A context menu script for dolphin file explorer for plasma KDE. <br/>
-The script converts video files such as `.mp4` into `.webm`.
+The script converts video files such as `.mp4` into `.webm` in order to reduce file size.
 
 To invoke the script, the user right clicks a file and then presses 'Convert to WEBM'. <br/>
 The script spawns a terminal that provides feedback on the conversion process.

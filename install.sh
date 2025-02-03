@@ -3,12 +3,12 @@
 
 
 function script(){
-	src='./ffctx.sh'
+	src='./ffconvert.sh'
 	
 	if [[ -d '/usr/local/bin/' ]]; then
-		dst='/usr/local/bin/ffctx.sh'
+		dst='/usr/local/bin/ffconvert.sh'
 	elif [[ -d '/usr/local/' ]]; then
-		dst='/usr/local/ffctx.sh'
+		dst='/usr/local/ffconvert.sh'
 	fi
 	
 	echo "cp -f '$src' '$dst'"
@@ -17,7 +17,7 @@ function script(){
 
 
 function contextMenu(){
-	src='./ffctx.desktop'
+	src='./ffconvert.desktop'
 	
 	desktop_path=`qtpaths --locate-dirs GenericDataLocation kio/servicemenus`
 	desktop_path="${desktop_path%%:*}"
@@ -27,8 +27,8 @@ function contextMenu(){
 		exit 1
 	fi
 	
-	echo "cp -f '$src' '${desktop_path}/ffctx.desktop'"
-	sudo cp -f "$src" "${desktop_path}/ffctx.desktop"
+	echo "cp -f '$src' '${desktop_path}/ffconvert.desktop'"
+	sudo cp -f "$src" "${desktop_path}/ffconvert.desktop"
 }
 
 

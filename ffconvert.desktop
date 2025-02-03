@@ -6,8 +6,8 @@ X-KDE-Submenu=Convert To WEBM
 
 [Desktop Action convertMediaFile]
 Name=Keep original
-Exec=konsole -e "bash -c 'type ffctx.sh 1>/dev/null 2>/dev/null && ffctx.sh %U'"
+Exec=konsole -e "bash -c 'type ffconvert.sh 1>/dev/null 2>/dev/null && ffconvert.sh -t webm %U'"
 
 [Desktop Action convertMediaFileReplace]
 Name=Replace original
-Exec=konsole -e "bash -c 'type ffctx.sh 1>/dev/null 2>/dev/null && ffctx.sh -r %U'"
+Exec=konsole -e "bash -c 'type ffconvert.sh 1>/dev/null 2>/dev/null && ffconvert.sh -t webm -r %U'"

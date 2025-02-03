@@ -3,10 +3,10 @@
 
 
 function script(){
-	if [[ -f '/usr/local/bin/ffctx.sh' ]]; then
-		f='/usr/local/bin/ffctx.sh'
-	elif [[ -f '/usr/local/ffctx.sh' ]]; then
-		f='/usr/local/ffctx.sh'
+	if [[ -f '/usr/local/bin/ffconvert.sh' ]]; then
+		f='/usr/local/bin/ffconvert.sh'
+	elif [[ -f '/usr/local/ffconvert.sh' ]]; then
+		f='/usr/local/ffconvert.sh'
 	else
 		return 1
 	fi
@@ -24,8 +24,8 @@ function contextMenu(){
 		return 1
 	fi
 	
-	echo "rm -f '${desktop_path}/ffctx.desktop'"
-	sudo rm -f "${desktop_path}/ffctx.desktop"
+	echo "rm -f '${desktop_path}/ffconvert.desktop'"
+	sudo rm -f "${desktop_path}/ffconvert.desktop"
 }
 
 
