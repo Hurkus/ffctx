@@ -8,13 +8,16 @@
 
 # Move source file to /tmp/ after completion: -r
 OPT_REPLACE=0
+OPT_FORCE=0
 OPT_TYPE=''
+TRESHOLD_PROMIL=10
 
 
 function ff(){
 	FF_IN="$1"
 	local out_ext="$2"
 	FF_OUT="${1%.*}.$out_ext"
+	local recompress=0
 	
 	# Verify files
 	if [[ ! -f "$FF_IN" ]]; then
@@ -22,9 +25,13 @@ function ff(){
 		echo "$FF_ERR" >&2
 		return 1
 	elif [[ -e "$FF_OUT" ]]; then
-		FF_ERR="File '$FF_OUT' already exists." >&2
-		echo "$FF_ERR" >&2
-		return 2
+		if [[ $OPT_FORCE != 0 ]]; then
+			[[ "$FF_IN" == "$FF_OUT" ]] && recompress=1
+		else
+			FF_ERR="File '$FF_OUT' already exists." >&2
+			echo "$FF_ERR" >&2
+			return 2
+		fi
 	fi
 	
 	# Build ffmpeg command
@@ -48,50 +55,53 @@ function ff(){
 	cmd+=' "$tmp" -y'
 	
 	# Run command on temp file
-	local tmp=`mktemp --suffix=".$out_ext"`
+	local tmp=`mktemp --suffix=".new.$out_ext"`
 	echo "$cmd"
 	eval "$cmd" || return 3
 	
 	# Check if resulting file is actually smaller than original
 	FF_IN_SIZE=`stat "$FF_IN" --print='%s'`
 	FF_OUT_SIZE=`stat "$tmp" --print='%s'`
+	local treshold=$(( $FF_IN_SIZE * $TRESHOLD_PROMIL / 1000 ))
 	
-	if (( $FF_OUT_SIZE >= $FF_IN_SIZE )); then
+	if (( $FF_OUT_SIZE >= $FF_IN_SIZE - $treshold )); then
+		rm "$tmp"
 		FF_ERR="File '$FF_IN' could not be compressed."
 		echo "$FF_ERR" >&2
 		return 4
-	elif [[ -e "$FF_OUT" ]]; then
+	elif [[ -e "$FF_OUT" && $OPT_FORCE == 0 ]]; then
+		rm "$tmp"
 		FF_ERR="File '$FF_OUT' already exists."
 		echo "$FF_ERR" >&2
 		return 5
+	else
+		echo "Reduced $FF_IN_SIZE B to $FF_OUT_SIZE B"
 	fi
 	
-	# Move new file next to original
-	mv -- "$tmp" "$FF_OUT"
-	touch -r "$FF_IN" -- "$FF_OUT"
+	# Ensure identical timestamp
+	touch -r "$FF_IN" -- "$tmp"
 	
 	# Remove old file (option)
-	if (($OPT_REPLACE)); then
-		
-		# Move original to /tmp/
+	if (( $OPT_REPLACE == 1 || $recompress == 1 )); then
+		# Try move original to /tmp/ or delete
 		if [[ "$tmp" =~ ^/tmp/ ]]; then
-			tmp="$(dirname -- "$tmp")/$(basename -- "$FF_IN")"
+			local tmp_2="$(dirname -- "$tmp")/$(basename -- "$FF_IN")"
 			
-			if [[ -e "$tmp" ]]; then
-				tmp=`mktemp --suffix=".${in##*.}"`
+			echo $tmp_2
+			if [[ -e "$tmp_2" ]]; then
+				tmp_2=`mktemp --suffix=".${FF_IN##*.}"`
 			fi
 			
-			echo "Moved original '$FF_IN' to '$tmp'"
-			mv -- "$FF_IN" "$tmp"
-			return 0
+			echo "Move original '$FF_IN' to '$tmp_2'"
+			mv -- "$FF_IN" "$tmp_2"
+		else
+			echo "Delete original '$FF_IN'"
+			rm -- "$FF_IN"
 		fi
-		
-		# Delete file
-		echo "Delete original '$FF_IN'"
-		rm -- "$FF_IN"
-		return 0
 	fi
 	
+	echo "Move '$tmp' '$FF_OUT'."
+	mv -- "$tmp" "$FF_OUT"
 	return 0
 }
 
@@ -99,6 +109,8 @@ function ff(){
 while (($# > 0)); do
 	if [[ "$1" = '-r' ]]; then
 		OPT_REPLACE=1
+	elif [[ "$1" = '-f' ]]; then
+		OPT_FORCE=1
 	elif [[ "$1" = '-t' ]]; then
 		shift
 		OPT_TYPE="$1"
@@ -119,7 +131,7 @@ while (($# > 0)); do
 			kdialog --title 'File converted.' --passivepopup "$s" 8
 		else
 			s="$FF_ERR\n"
-			(( err >= 4 )) && s+="Source $(numfmt --to=iec "$FF_IN_SIZE")B inflated to $(numfmt --to=iec "$FF_OUT_SIZE")B.\n"
+			(( err == 4 )) && s+="Source $(numfmt --to=iec "$FF_IN_SIZE")B inflated to $(numfmt --to=iec "$FF_OUT_SIZE")B.\n"
 			s+="Operation canceled."
 			kdialog --title 'File conversion failed!' --passivepopup "$s" 30
 			exit $e

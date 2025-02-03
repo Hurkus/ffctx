@@ -12,7 +12,7 @@ function script(){
 	fi
 	
 	echo "cp -f '$src' '$dst'"
-	sudo cp -f "$src" "$dst"
+	sudo cp -f "$src" "$dst" || return 1
 }
 
 
@@ -24,14 +24,14 @@ function contextMenu(){
 	
 	if [[ ! -d "$desktop_path" ]]; then
 		echo "Could not find 'kio/servicemenus'. This is a problem with dolphin." >&2
-		exit 1
+		return 1
 	fi
 	
-	echo "cp -f '$src' '${desktop_path}/ffconvert.desktop'"
-	sudo cp -f "$src" "${desktop_path}/ffconvert.desktop"
+	echo "cp -f ./ffconvert-*.desktop '${desktop_path}/'"
+	sudo cp -f ./ffconvert-*.desktop "${desktop_path}/" || return 1
 }
 
 
-script
-contextMenu
+script || echo "Failed to install script." >&2
+contextMenu || echo "Failed to context menu." >&2
 echo 'Done.'

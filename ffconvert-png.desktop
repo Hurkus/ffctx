@@ -1,0 +1,15 @@
+# https://develop.kde.org/docs/apps/dolphin/service-menus/
+
+[Desktop Entry]
+Type=Service
+MimeType=image/png;image/avif;image/webp;
+Actions=convertMedia_jpg;convertMediaReplace_jpg;
+X-KDE-Submenu=Convert To JPG
+
+[Desktop Action convertMedia_jpg]
+Name=Keep original
+Exec=konsole -e "bash -c 'type ffconvert.sh 1>/dev/null 2>/dev/null && ffconvert.sh -t jpg %U'"
+
+[Desktop Action convertMediaReplace_jpg]
+Name=Replace original
+Exec=konsole -e "bash -c 'type ffconvert.sh 1>/dev/null 2>/dev/null && ffconvert.sh -t jpg -r %U'"

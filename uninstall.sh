@@ -24,8 +24,8 @@ function contextMenu(){
 		return 1
 	fi
 	
-	echo "rm -f '${desktop_path}/ffconvert.desktop'"
-	sudo rm -f "${desktop_path}/ffconvert.desktop"
+	echo "rm -f '${desktop_path}/ffconvert-*.desktop'"
+	sudo rm -f "${desktop_path}"/ffconvert-*.desktop
 }
 
 
