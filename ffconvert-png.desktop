@@ -8,8 +8,8 @@ X-KDE-Submenu=Convert To JPG
 
 [Desktop Action convertMedia_jpg]
 Name=Keep original
-Exec=konsole -e "bash -c 'type ffconvert.sh 1>/dev/null 2>/dev/null && ffconvert.sh -t jpg %U'"
+Exec=ffconvert.sh -t jpg %U
 
 [Desktop Action convertMediaReplace_jpg]
 Name=Replace original
-Exec=konsole -e "bash -c 'type ffconvert.sh 1>/dev/null 2>/dev/null && ffconvert.sh -t jpg -r %U'"
+Exec=ffconvert.sh -t jpg -r %U

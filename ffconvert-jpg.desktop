@@ -7,5 +7,4 @@ Actions=convertMediaRecompress_jpg
 
 [Desktop Action convertMediaRecompress_jpg]
 Name=Recompress JPG
-Exec=konsole -e "bash -c 'type ffconvert.sh 1>/dev/null 2>/dev/null && ffconvert.sh -t jpg -f %U'"
-
+Exec=ffconvert.sh -t jpg -f %U

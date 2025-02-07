@@ -106,15 +106,21 @@ function ff(){
 }
 
 
+_err=0
+
 while (($# > 0)); do
-	if [[ "$1" = '-r' ]]; then
+	if [[ "$1" = '-k' ]]; then		# Open konsole for feedback
+		shift
+		konsole -e "$0" "$@" & disown
+		exit
+	elif [[ "$1" = '-r' ]]; then	# Delete original file
 		OPT_REPLACE=1
-	elif [[ "$1" = '-f' ]]; then
+	elif [[ "$1" = '-f' ]]; then	# Force replace existing file
 		OPT_FORCE=1
-	elif [[ "$1" = '-t' ]]; then
+	elif [[ "$1" = '-t' ]]; then	# Output type
 		shift
 		OPT_TYPE="$1"
-	else
+	else							# Process file
 		
 		if [[ -z "$OPT_TYPE" ]]; then
 			echo 'Unknown output file type.' >&2
@@ -125,18 +131,20 @@ while (($# > 0)); do
 		ff "$1" "$OPT_TYPE" ; err=$?
 		
 		# Report stats
-		if (( $err == 0)); then
+		if (( $err == 0 )); then
 			s="File '$FF_IN' has been converted to '`basename -- "$FF_OUT"`'.\n"
 			s+="Reduced $(numfmt --to=iec "$FF_IN_SIZE")B to $(numfmt --to=iec "$FF_OUT_SIZE")B."
 			kdialog --title 'File converted.' --passivepopup "$s" 8
 		else
 			s="$FF_ERR\n"
-			(( err == 4 )) && s+="Source $(numfmt --to=iec "$FF_IN_SIZE")B inflated to $(numfmt --to=iec "$FF_OUT_SIZE")B.\n"
+			(( $err == 4 )) && s+="Source $(numfmt --to=iec "$FF_IN_SIZE")B inflated to $(numfmt --to=iec "$FF_OUT_SIZE")B.\n"
 			s+="Operation canceled."
 			kdialog --title 'File conversion failed!' --passivepopup "$s" 30
-			exit $e
+			_err=$err
 		fi
 		
 	fi
 	shift
 done
+
+exit $_err

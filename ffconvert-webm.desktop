@@ -6,12 +6,10 @@ MimeType=video/mp4;video/mpeg;video/quicktime;video/ogg;video/avi;
 Actions=convertMedia_webm;convertMediaReplace_webm;
 X-KDE-Submenu=Convert To WEBM
 
-
 [Desktop Action convertMedia_webm]
 Name=Keep original file
-Exec=konsole -e "bash -c 'type ffconvert.sh 1>/dev/null 2>/dev/null && ffconvert.sh -t webm %U'"
+Exec=ffconvert.sh -k -t webm %U
 
 [Desktop Action convertMediaReplace_webm]
 Name=Replace original file
-Exec=konsole -e "bash -c 'type ffconvert.sh 1>/dev/null 2>/dev/null && ffconvert.sh -t webm -r %U'"
-
+Exec=ffconvert.sh -k -t webm -r %U
